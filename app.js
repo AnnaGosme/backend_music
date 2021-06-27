@@ -28,7 +28,7 @@ app.get("/api/tracks/:id", (req, res) => {
       res.json(results);
     }
   });
-});
+}); 
 
 app.post("/api/tracks", (req, res) => {
   connection.query("INSERT INTO track SET ?", [req.body], (err, results) => {
