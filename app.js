@@ -32,7 +32,7 @@ app.get("/api/tracks/:id", (req, res) => {
 
 app.post("/api/tracks", (req, res) => {
   connection.query("INSERT INTO track SET ?", [req.body], (err, results) => {
-    if (err) {
+    if (err) { 
       res.json({ error: `error adding track: ${err}` });
     } else {
       //201 = success and req.body to send the created element
