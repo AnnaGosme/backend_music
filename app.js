@@ -28,11 +28,11 @@ app.get("/api/tracks/:id", (req, res) => {
       res.json(results);
     }
   });
-}); 
+});
 
 app.post("/api/tracks", (req, res) => {
   connection.query("INSERT INTO track SET ?", [req.body], (err, results) => {
-    if (err) { 
+    if (err) {
       res.json({ error: `error adding track: ${err}` });
     } else {
       //201 = success and req.body to send the created element
@@ -40,6 +40,11 @@ app.post("/api/tracks", (req, res) => {
     }
   });
 });
+// {
+//   "title": "In Principio - I. In Principio Erat Verbum",
+//   "youtube_url": "https://www.youtube.com/watch?v=CVAUv_dGg0s",
+//   "album_id": 2
+// }
 
 app.put("/api/tracks/:id", (req, response) => {
   const { id } = req.params;
@@ -50,6 +55,32 @@ app.put("/api/tracks/:id", (req, response) => {
       response.status(201).json(req.body);
     }
   });
+});
+
+app.delete("/api/tracks/:id", (req, res) => {
+  const { id } = req.params;
+  connection.query("DELETE FROM track WHERE id=?", [id], (err) => {
+    if (err) {
+      res.json({ error: `error deleting track: ${err}` });
+    } else {
+      res.sendStatus(204);
+    }
+  });
+});
+
+app.get("/api/albums/:id/tracks", (req, res) => {
+  const { id } = req.params;
+  connection.query(
+    "SELECT * FROM track WHERE album_id=?",
+    [id],
+    (err, results) => {
+      if (err) {
+        res.json({ error: `Error retrieving track: ${err}` });
+      } else {
+        res.json(results);
+      }
+    }
+  );
 });
 
 module.exports = app;
